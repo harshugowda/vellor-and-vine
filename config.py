@@ -2,10 +2,9 @@ import os
 
 
 class Config:
-
     SECRET_KEY = os.environ.get(
         "SECRET_KEY",
-        "dev-secret-key-change-this"
+        "vellor_vine_secret_key"
     )
 
     SQLALCHEMY_DATABASE_URI = os.environ.get(
