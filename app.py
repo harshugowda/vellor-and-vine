@@ -746,7 +746,13 @@ def send_order_chat_message(order_id):
 @app.route("/invoice/<int:order_id>")
 def invoice(order_id):
 
+    if not session.get("user_id"):
+        return redirect(url_for("login"))
+
     order = Order.query.get_or_404(order_id)
+
+    if order.user_id != session["user_id"] and not session.get("is_admin"):
+        return redirect(url_for("home"))
 
     order_items = OrderItem.query.filter_by(
         order_id=order.id
@@ -879,7 +885,13 @@ def payment():
 @app.route("/order-success/<int:order_id>")
 def order_success(order_id):
 
+    if not session.get("user_id"):
+        return redirect(url_for("login"))
+
     order = Order.query.get_or_404(order_id)
+
+    if order.user_id != session["user_id"] and not session.get("is_admin"):
+        return redirect(url_for("home"))
 
     return render_template(
         "order_success.html",
