@@ -1070,24 +1070,7 @@ def dashboard():
 
         low_stock=low_stock
     )
-@app.route("/make-admin")
-def make_admin():
 
-    user = User.query.filter_by(email="hharshitha2001@gmail.com").first()
-
-    if not user:
-        return "User not found."
-
-    #before = user.is_admin
-
-    user.is_admin = True
-
-    db.session.commit()
-
-    #db.session.refresh(user)
-
-    #return f"Before: {before} | After: {user.is_admin}"
-    return "you are now an admin!"
 
 @app.route("/users")
 def users():
