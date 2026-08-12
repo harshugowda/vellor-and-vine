@@ -1071,9 +1071,11 @@ def dashboard():
         low_stock=low_stock
     )
 
-
 @app.route("/users")
 def users():
+
+    if not session.get("is_admin"):
+        return redirect(url_for("login"))
 
     users = User.query.all()
 
