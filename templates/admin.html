@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="featured">
+
+    <h2>Admin Dashboard</h2>
+
+    <p class="section-subtitle">
+        Add new crochet products to your store.
+    </p>
+
+    <form method="POST"
+      enctype="multipart/form-data"
+      class="product-form">
+
+        <input
+            type="text"
+            name="name"
+            placeholder="Product Name"
+            required
+        >
+
+        <input
+            type="text"
+            name="category"
+            placeholder="Category (Bouquet, Bag, Toy...)"
+            required
+        >
+
+        <input
+            type="number"
+            step="0.01"
+            name="price"
+            placeholder="Price"
+            required
+        >
+        <input
+    type="number"
+    name="stock"
+    placeholder="Stock Quantity"
+    required>
+
+        <textarea
+    name="description"
+    placeholder="Product Description"
+></textarea>
+
+<label for="image">Product Image</label>
+
+<input
+    type="file"
+    id="image"
+    name="image"
+    accept="image/*">
+
+<button type="submit">
+    Add Product
+</button>
+
+    </form>
+
+    <hr>
+
+    <h2>Available Products</h2>
+
+    <div class="products">
+
+        {% for product in products %}
+
+        <div class="card">
+
+    <h3>{{ product.name }}</h3>
+
+    <p>{{ product.category }}</p>
+
+    <p class="price">₹{{ product.price }}</p>
+
+    <p>{{ product.description }}</p>
+
+    <br>
+
+   <a href="/edit/{{ product.id }}" class="edit-btn">
+    Edit
+</a>
+
+<a href="/delete/{{ product.id }}" class="delete-btn">
+    Delete
+</a>
+
+</div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

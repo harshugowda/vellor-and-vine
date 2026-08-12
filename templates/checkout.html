@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="featured">
+
+    <h2>Checkout</h2>
+
+    <div class="card" style="max-width:700px;margin:auto  auto 30px;">
+
+        <h3>Order Summary</h3>
+
+        <hr><br>
+
+        {% for item in products %}
+
+            <p>
+                <strong>{{ item.product.name }}</strong><br>
+                Quantity: {{ item.quantity }}<br>
+                Price: ₹{{ item.product.price }}<br>
+                Subtotal: ₹{{ item.subtotal }}
+            </p>
+
+            <hr>
+
+        {% endfor %}
+
+        <h2>Total: ₹{{ total }}</h2>
+
+    </div>
+
+    <form class="product-form" method="POST">
+
+        <input
+            type="text"
+            name="fullname"
+            placeholder="Full Name"
+            required>
+
+        <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            required>
+
+        <input
+            type="text"
+            name="phone"
+            placeholder="Phone Number"
+            required>
+
+        <textarea
+            name="address"
+            placeholder="Shipping Address"
+            required></textarea>
+
+        <button type="submit">
+            Place Order
+        </button>
+
+    </form>
+
+</section>
+
+{% endblock %}

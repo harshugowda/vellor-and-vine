@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="shop-page">
+
+    <!-- ========================================
+         SHOP HEADER
+    ======================================== -->
+
+    <div class="shop-header">
+
+        <div>
+
+            <h2>
+                Our Collection
+            </h2>
+
+            <p>
+                Discover our handmade crochet collection
+            </p>
+
+        </div>
+
+
+        <!-- SORT -->
+
+        <div class="sort-box">
+
+            <select onchange="location=this.value">
+
+                <option value="">
+                    Sort By
+                </option>
+
+                <option value="/shop?sort=price_low">
+                    Price: Low to High
+                </option>
+
+                <option value="/shop?sort=price_high">
+                    Price: High to Low
+                </option>
+
+                <option value="/shop?sort=name">
+                    Name
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================================
+         PRODUCTS
+    ======================================== -->
+
+    {% if products %}
+
+        <div class="products-grid">
+
+            {% for product in products %}
+
+                <div class="product-card">
+
+
+                    <!-- Handmade Badge -->
+
+                    <span class="badge">
+                        Handmade
+                    </span>
+
+
+                    <!-- Wishlist -->
+
+                    <a
+                        href="/wishlist/{{ product.id }}"
+                        class="wishlist"
+                        title="Add to Wishlist">
+
+                        <i class="fa-regular fa-heart"></i>
+
+                    </a>
+
+
+                    <!-- ====================================
+                         PRODUCT IMAGE
+                    ===================================== -->
+
+                    <div class="product-image-area">
+
+                        {% if product.image %}
+
+                            <img
+                                src="{{ url_for(
+                                    'static',
+                                    filename='uploads/' + product.image
+                                ) }}"
+                                class="product-image"
+                                alt="{{ product.name }}">
+
+                        {% else %}
+
+                            <div class="placeholder">
+                                🧶
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- ====================================
+                         PRODUCT INFORMATION
+                    ===================================== -->
+
+                    <div class="product-info">
+
+
+                        <!-- Rating -->
+
+                        <div class="rating">
+                            ★★★★★
+                        </div>
+
+
+                        <!-- Product Name -->
+
+                        <h3>
+                            {{ product.name }}
+                        </h3>
+
+
+                        <!-- Price -->
+
+                        <p class="price">
+                            ₹{{ "%.2f"|format(product.price) }}
+                        </p>
+
+
+                        <!-- Category -->
+
+                        <p class="category">
+                            {{ product.category }}
+                        </p>
+
+
+                        <!-- =================================
+                             STOCK
+                        ================================== -->
+
+                        {% if product.stock > 0 %}
+
+                            <p class="stock-available">
+                                ✓ {{ product.stock }} Available
+                            </p>
+
+
+                            <!-- View Product -->
+
+                            <a
+                                href="{{ url_for(
+                                    'product',
+                                    id=product.id
+                                ) }}"
+                                class="cart-btn">
+
+                                View Product
+
+                            </a>
+
+                        {% else %}
+
+                            <p class="stock-out">
+                                Out of Stock
+                            </p>
+
+                        {% endif %}
+
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+
+        <!-- ========================================
+             NO PRODUCTS
+        ======================================== -->
+
+        <div class="no-products">
+
+            <h2>
+                🧶 No Products Found
+            </h2>
+
+            <p>
+                There are no products available right now.
+            </p>
+
+        </div>
+
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

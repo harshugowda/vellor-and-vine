@@ -1,0 +1,826 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+/* =========================================
+   PRODUCT DETAIL PAGE
+========================================= */
+
+.product-detail-page {
+    width: 90%;
+    max-width: 1100px;
+    margin: 60px auto 80px;
+}
+
+
+/* =========================================
+   MAIN PRODUCT CARD
+========================================= */
+
+.product-detail-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 45px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+    border: 1px solid #eeeeee;
+    text-align: center;
+}
+
+
+/* =========================================
+   PRODUCT IMAGE
+========================================= */
+
+.product-detail-image-area {
+    width: 100%;
+    max-width: 750px;
+    height: 430px;
+    margin: 0 auto 35px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #faf8f5;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.product-detail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-detail-placeholder {
+    font-size: 100px;
+    opacity: 0.6;
+}
+
+
+/* =========================================
+   PRODUCT NAME
+========================================= */
+
+.product-detail-card h1 {
+    margin: 10px 0 18px;
+
+    font-family: 'Cinzel', serif;
+    font-size: 42px;
+    font-weight: 500;
+
+    color: #174d42;
+
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+
+/* =========================================
+   RATING
+========================================= */
+
+.product-detail-rating {
+    color: #d6aa55;
+    font-size: 18px;
+    letter-spacing: 3px;
+    margin-bottom: 18px;
+}
+
+
+/* =========================================
+   PRICE
+========================================= */
+
+.product-detail-price {
+    margin: 0 0 15px;
+
+    font-family: 'Cinzel', serif;
+    font-size: 27px;
+    font-weight: 600;
+
+    color: #d6aa55;
+}
+
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.product-detail-description {
+    max-width: 650px;
+    margin: 0 auto 30px;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    line-height: 1.8;
+
+    color: #777;
+}
+
+
+/* =========================================
+   PRODUCT INFORMATION
+========================================= */
+
+.product-detail-info {
+    max-width: 650px;
+
+    margin: 25px auto 30px;
+    padding: 20px 0;
+
+    border-top: 1px solid #eeeeee;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.product-detail-info p {
+    margin: 14px 0;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+
+    color: #666;
+}
+
+.product-detail-info strong {
+    color: #174d42;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   QUANTITY
+========================================= */
+
+.quantity-section {
+    margin: 35px 0;
+}
+
+.quantity-label {
+    display: block;
+
+    margin-bottom: 14px;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+
+    color: #174d42;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+}
+
+.quantity-controls button {
+    width: 48px;
+    height: 44px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #174d42;
+    color: white;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.quantity-controls button:hover {
+    background: #d6aa55;
+}
+
+.quantity-controls input {
+    width: 60px;
+    height: 44px;
+
+    text-align: center;
+
+    border: 1px solid #ddd;
+    border-radius: 10px;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+
+    outline: none;
+}
+
+
+/* =========================================
+   PRODUCT FEATURES
+========================================= */
+
+.product-features {
+    max-width: 520px;
+
+    margin: 30px auto;
+
+    padding: 20px 0;
+}
+
+.product-features p {
+    margin: 14px 0;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 15px;
+    font-weight: 400;
+
+    color: #555;
+
+    text-align: left;
+}
+
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.product-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 15px;
+
+    margin-top: 30px;
+}
+
+.product-actions a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 170px;
+
+    padding: 14px 25px;
+
+    border-radius: 10px;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition: 0.25s ease;
+}
+
+
+/* Add To Cart */
+
+.add-cart-btn {
+    background: #174d42;
+    color: white;
+}
+
+.add-cart-btn:hover {
+    background: #d6aa55;
+    color: white;
+}
+
+
+/* Buy Now */
+
+.buy-now-btn {
+    background: #d6aa55;
+    color: white;
+}
+
+.buy-now-btn:hover {
+    background: #174d42;
+    color: white;
+}
+
+
+/* =========================================
+   RELATED PRODUCTS
+========================================= */
+
+.related-section {
+    margin-top: 80px;
+}
+
+.related-section h2 {
+    margin-bottom: 10px;
+
+    font-family: 'Cinzel', serif;
+    font-size: 34px;
+    font-weight: 500;
+
+    text-align: center;
+
+    color: #174d42;
+}
+
+.related-subtitle {
+    margin-bottom: 35px;
+
+    text-align: center;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+
+    color: #777;
+}
+
+.related-products {
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 25px;
+}
+
+.related-card {
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 20px;
+
+    text-align: center;
+
+    border: 1px solid #eeeeee;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+
+    transition: 0.25s ease;
+}
+
+.related-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.10);
+}
+
+.related-image-area {
+    height: 230px;
+
+    margin-bottom: 20px;
+
+    background: #faf8f5;
+
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.related-image {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.related-placeholder {
+    font-size: 65px;
+}
+
+.related-card h3 {
+    margin: 10px 0;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 19px;
+    font-weight: 600;
+
+    color: #174d42;
+}
+
+.related-price {
+    margin-bottom: 18px;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 20px;
+    font-weight: 600;
+
+    color: #d6aa55;
+}
+
+.related-btn {
+    display: inline-block;
+
+    padding: 11px 22px;
+
+    background: #174d42;
+    color: white;
+
+    border-radius: 9px;
+
+    text-decoration: none;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: 0.2s ease;
+}
+
+.related-btn:hover {
+    background: #d6aa55;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 800px) {
+
+    .product-detail-page {
+        width: 94%;
+        margin: 35px auto 60px;
+    }
+
+    .product-detail-card {
+        padding: 25px 20px;
+    }
+
+    .product-detail-image-area {
+        height: 320px;
+    }
+
+    .product-detail-card h1 {
+        font-size: 32px;
+    }
+
+    .product-detail-price {
+        font-size: 24px;
+    }
+
+    .product-actions {
+        flex-direction: column;
+    }
+
+    .product-actions a {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .related-products {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+</style>
+
+
+<!-- =========================================
+     PRODUCT DETAIL
+========================================= -->
+
+<div class="product-detail-page">
+
+    <div class="product-detail-card">
+
+
+        <!-- PRODUCT IMAGE -->
+
+        <div class="product-detail-image-area">
+
+            {% if product.image %}
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='uploads/' + product.image
+                    ) }}"
+                    class="product-detail-image"
+                    alt="{{ product.name }}">
+
+            {% else %}
+
+                <div class="product-detail-placeholder">
+                    🧶
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- PRODUCT NAME -->
+
+        <h1>
+            {{ product.name }}
+        </h1>
+
+
+        <!-- RATING -->
+
+        <div class="product-detail-rating">
+            ★★★★★
+        </div>
+
+
+        <!-- PRICE -->
+
+        <div class="product-detail-price">
+            ₹{{ product.price }}
+        </div>
+
+
+        <!-- DESCRIPTION -->
+
+        {% if product.description %}
+
+            <p class="product-detail-description">
+                {{ product.description }}
+            </p>
+
+        {% endif %}
+
+
+        <!-- PRODUCT INFORMATION -->
+
+        <div class="product-detail-info">
+
+            <p>
+                <strong>Category:</strong>
+                {{ product.category }}
+            </p>
+
+            <p>
+                <strong>Material:</strong>
+                Premium Cotton Yarn
+            </p>
+
+            <p>
+                <strong>Handmade:</strong>
+                Yes
+            </p>
+
+            <p>
+                <strong>Delivery:</strong>
+                3–7 Business Days
+            </p>
+
+        </div>
+
+
+        <!-- QUANTITY -->
+
+        <div class="quantity-section">
+
+            <label
+                class="quantity-label"
+                for="quantity">
+
+                Quantity
+
+            </label>
+
+
+            <div class="quantity-controls">
+
+                <button
+                    type="button"
+                    onclick="changeQuantity(-1)">
+
+                    −
+
+                </button>
+
+
+                <input
+                    type="number"
+                    id="quantity"
+                    value="1"
+                    min="1"
+                    max="{{ product.stock }}"
+                    readonly>
+
+
+                <button
+                    type="button"
+                    onclick="changeQuantity(1)">
+
+                    +
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- FEATURES -->
+
+        <div class="product-features">
+
+            <p>
+                ✔ Handmade with Premium Cotton Yarn
+            </p>
+
+            <p>
+                🚚 Delivery in 3–7 Business Days
+            </p>
+
+            <p>
+                🎁 Gift Ready Packaging Available
+            </p>
+
+            <p>
+                🔒 Secure Checkout
+            </p>
+
+        </div>
+
+
+        <!-- ACTION BUTTONS -->
+
+        {% if product.stock > 0 %}
+
+            <div class="product-actions">
+
+                <a
+                    id="addToCartButton"
+                    href="/add-to-cart/{{ product.id }}?quantity=1"
+                    class="add-cart-btn">
+
+                    🛒 Add to Cart
+
+                </a>
+
+
+                <a
+                    href="/add-to-cart/{{ product.id }}?quantity=1"
+                    class="buy-now-btn">
+
+                    ⚡ Buy Now
+
+                </a>
+
+            </div>
+
+        {% else %}
+
+            <p class="stock-out">
+                ❌ Out of Stock
+            </p>
+
+        {% endif %}
+
+
+    </div>
+
+
+    <!-- =====================================
+         RELATED PRODUCTS
+    ====================================== -->
+
+    {% if related_products %}
+
+    <div class="related-section">
+
+        <h2>
+            You May Also Like
+        </h2>
+
+
+        <p class="related-subtitle">
+
+            More handmade creations you might love.
+
+        </p>
+
+
+        <div class="related-products">
+
+            {% for item in related_products %}
+
+                <div class="related-card">
+
+
+                    <!-- RELATED IMAGE -->
+
+                    <div class="related-image-area">
+
+                        {% if item.image %}
+
+                            <img
+                                src="{{ url_for(
+                                    'static',
+                                    filename='uploads/' + item.image
+                                ) }}"
+                                class="related-image"
+                                alt="{{ item.name }}">
+
+                        {% else %}
+
+                            <div class="related-placeholder">
+                                🧶
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- RELATED PRODUCT NAME -->
+
+                    <h3>
+                        {{ item.name }}
+                    </h3>
+
+
+                    <!-- RELATED PRICE -->
+
+                    <p class="related-price">
+                        ₹{{ item.price }}
+                    </p>
+
+
+                    <!-- VIEW PRODUCT -->
+
+                    <a
+                        href="{{ url_for('product', id=item.id) }}"
+                        class="related-btn">
+
+                        View Product
+
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+
+<!-- =========================================
+     QUANTITY JAVASCRIPT
+========================================= -->
+
+<script>
+
+function changeQuantity(amount) {
+
+    const quantityInput =
+        document.getElementById("quantity");
+
+    if (!quantityInput) {
+        return;
+    }
+
+    let quantity =
+        parseInt(quantityInput.value);
+
+    const maxQuantity =
+        parseInt(quantityInput.max);
+
+    quantity += amount;
+
+
+    if (quantity < 1) {
+        quantity = 1;
+    }
+
+
+    if (quantity > maxQuantity) {
+        quantity = maxQuantity;
+    }
+
+
+    quantityInput.value = quantity;
+
+
+    const addToCartButton =
+        document.getElementById("addToCartButton");
+
+    if (addToCartButton) {
+
+        addToCartButton.href =
+            "/add-to-cart/{{ product.id }}?quantity="
+            + quantity;
+
+    }
+
+}
+
+</script>
+
+{% endblock %}

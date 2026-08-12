@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<link rel="stylesheet"
+href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+<style>
+
+    /* YOUR EXISTING CSS */
+
+
+    /* ========================================
+       SHOP PAGE
+    ======================================== */
+
+    .shop-page {
+        width: 90%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 70px 0;
+    }
+
+    .shop-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 45px;
+    }
+
+    .shop-header h2 {
+        margin: 0;
+        font-family: Georgia, serif;
+        font-size: 52px;
+        color: #174d42;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .shop-header p {
+        margin-top: 10px;
+        color: #777;
+        font-size: 16px;
+    }
+
+
+    /* SORT */
+
+    .sort-box select {
+        padding: 14px 22px;
+        min-width: 210px;
+        border: 1px solid #ddd;
+        border-radius: 30px;
+        background: white;
+        color: #333;
+        font-size: 15px;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .sort-box select:focus {
+        border-color: #d6aa55;
+    }
+
+
+    /* PRODUCT GRID */
+
+    .products-grid {
+        display: grid;
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+        gap: 30px;
+    }
+
+
+    /* PRODUCT CARD */
+
+    .product-card {
+        position: relative;
+        background: #fff;
+        border-radius: 22px;
+        padding: 22px;
+        border: 1px solid #eee;
+
+        box-shadow:
+            0 8px 30px rgba(0, 0, 0, 0.07);
+
+        transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease;
+
+        overflow: hidden;
+    }
+
+    .product-card:hover {
+        transform: translateY(-6px);
+
+        box-shadow:
+            0 15px 40px rgba(0, 0, 0, 0.12);
+    }
+
+
+    /* BADGE */
+
+    .badge {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+
+        background: #d6aa55;
+        color: white;
+
+        padding: 8px 14px;
+        border-radius: 20px;
+
+        font-size: 12px;
+        font-weight: 600;
+
+        z-index: 2;
+    }
+
+
+    /* WISHLIST */
+
+.wishlist {
+    position: absolute;
+
+    top: 18px;
+    right: 18px;
+
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: white;
+
+    border-radius: 50%;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+
+    text-decoration: none !important;
+
+    color: #777;
+
+    cursor: pointer;
+
+    z-index: 10;
+
+    transition: 0.3s;
+}
+
+.wishlist {
+    position: absolute;
+
+    top: 18px;
+    right: 18px;
+
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: white;
+
+    border-radius: 50%;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+
+    text-decoration: none;
+
+    color: #777;
+
+    cursor: pointer;
+
+    z-index: 9999;
+}
+
+.wishlist i {
+    font-size: 20px;
+    pointer-events: none;
+}
+
+.wishlist:hover {
+    color: #ff4d6d;
+    transform: scale(1.08);
+}
+
+
+    /* IMAGE / PLACEHOLDER */
+
+    .product-image-area {
+        height: 260px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin-bottom: 20px;
+
+        background: #faf8f5;
+
+        border-radius: 16px;
+
+        overflow: hidden;
+    }
+
+    .product-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    /* ========================================
+   PRODUCT DETAIL IMAGE
+======================================== */
+
+.product-detail-image-area {
+    width: 100%;
+    height: 420px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #faf8f5;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    margin-bottom: 30px;
+}
+.product-detail-image-area {
+    width: 100%;
+    height: 380px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #faf8f5;
+    border-radius: 18px;
+
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.product-detail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.product-detail-image {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+    .placeholder {
+        font-size: 75px;
+        opacity: 0.7;
+    }
+/* ========================================
+   PRODUCT DETAIL TYPOGRAPHY
+======================================== */
+
+.product-detail-card {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #4a4a4a;
+}
+
+
+/* Product Name */
+
+.product-detail-card > h2 {
+    margin: 15px 0 12px;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 42px;
+    font-weight: 500;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+
+    color: #174d42;
+}
+
+
+/* Rating */
+
+.product-detail-card .rating {
+    margin: 8px 0 15px;
+
+    font-size: 16px;
+
+    color: #d6aa55;
+
+    letter-spacing: 3px;
+}
+
+
+/* Price */
+
+.product-detail-card .price {
+    margin: 10px 0 18px;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 28px;
+
+    font-weight: 600;
+
+    color: #d6aa55;
+}
+
+
+/* Description */
+
+.product-detail-card > p {
+    margin: 14px 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #666;
+}
+
+.product-detail-card > p strong {
+    color: #174d42;
+    font-weight: 500;
+}
+
+.product-detail-card .description {
+    max-width: 600px;
+    margin: 20px auto 30px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #777;
+}
+/* Product information */
+
+.product-detail-card > p strong {
+    color: #174d42;
+
+    font-weight: 600;
+}
+
+
+/* Quantity */
+
+.product-detail-card label {
+    display: block;
+
+    margin-top: 30px;
+    margin-bottom: 12px;
+
+    font-size: 15px;
+
+    color: #174d42;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* Feature section */
+
+.product-detail-card .product-features {
+    margin: 35px 0;
+}
+
+.product-detail-card .product-features p {
+    margin: 18px 0;
+
+    font-size: 17px;
+
+    font-weight: 500;
+
+    color: #c49632;
+}
+
+
+/* Buttons */
+
+.product-detail-card .cart-btn,
+.product-detail-card .btn {
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    letter-spacing: 0.3px;
+}
+
+    /* PRODUCT INFO */
+
+    .product-info {
+        text-align: center;
+    }
+
+    .rating {
+        color: #e2a800;
+        font-size: 17px;
+        letter-spacing: 2px;
+        margin-bottom: 10px;
+    }
+
+    .product-info h3 {
+        margin: 5px 0;
+        font-size: 22px;
+        color: #174d42;
+    }
+
+    .price {
+        margin: 10px 0;
+
+        font-size: 24px;
+        font-weight: 700;
+
+        color: #d6aa55;
+    }
+
+    .category {
+        margin: 5px 0 12px;
+
+        color: #777;
+
+        text-transform: capitalize;
+
+        font-size: 15px;
+    }
+
+
+    /* STOCK */
+
+    .stock-available {
+        color: #16834b;
+        font-weight: 600;
+        margin-bottom: 18px;
+    }
+
+    .stock-out {
+        color: #c62828;
+        font-weight: 600;
+        margin: 20px 0;
+    }
+
+
+    /* VIEW PRODUCT */
+
+    .product-card .cart-btn {
+        display: inline-block;
+
+        padding: 12px 25px;
+
+        background: #174d42;
+        color: white;
+
+        text-decoration: none;
+
+        border-radius: 10px;
+
+        font-weight: 600;
+
+        transition: 0.2s ease;
+    }
+
+    .product-card .cart-btn:hover {
+        background: #d6aa55;
+        color: white;
+    }
+
+
+    /* NO PRODUCTS */
+
+    .no-products {
+        text-align: center;
+
+        padding: 80px 20px;
+
+        background: white;
+
+        border-radius: 20px;
+    }
+
+    .no-products h2 {
+        color: #174d42;
+    }
+
+    .no-products p {
+        color: #777;
+    }
+
+
+    /* RESPONSIVE */
+
+    @media (max-width: 1000px) {
+
+        .products-grid {
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+        }
+
+    }
+
+
+    @media (max-width: 650px) {
+
+        .shop-page {
+            width: 92%;
+            padding: 40px 0;
+        }
+
+        .shop-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .shop-header h2 {
+            font-size: 38px;
+        }
+
+        .products-grid {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =========================
+        Navigation
+========================== -->
+
+<header>
+
+    <nav class="navbar">
+
+        <!-- Logo -->
+        <a href="/" class="logo-link">
+            <img
+                src="{{ url_for('static', filename='images/logo.png') }}"
+                alt="Vellor & Vine Logo"
+                class="logo-img">
+        </a>
+
+        <!-- Mobile Menu Button -->
+        <button
+            type="button"
+            class="mobile-menu-btn"
+            onclick="toggleMobileMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <!-- Navigation Content -->
+        <div class="nav-content" id="navContent">
+
+            <ul class="nav-links" data-aos="fade-down">
+
+                <li>
+                    <a href="/">
+                        <i class="fa-solid fa-house"></i>
+                        Home
+                    </a>
+                </li>
+
+                {% if session.get("user_name") %}
+
+                <li>
+                    <a href="/shop">
+                        <i class="fa-solid fa-shop"></i>
+                        Shop
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ url_for('my_wishlist') }}">
+                        <i class="fa-regular fa-heart"></i>
+                        Wishlist
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/cart">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        Cart
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/profile">
+                        <i class="fa-solid fa-user"></i>
+                        {{ session.get("user_name") }}
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/my-orders">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        My Orders
+                    </a>
+                </li>
+
+                <li class="notification-nav-item">
+                    <div class="notification-wrapper">
+
+                        <button
+                            type="button"
+                            class="notification-link"
+                            onclick="toggleNotifications()">
+                            <i class="fa-solid fa-bell"></i>
+
+                            {% if unread_notifications > 0 %}
+                                <span class="notification-badge">
+                                    {{ unread_notifications }}
+                                </span>
+                            {% endif %}
+                        </button>
+
+                        <div
+                            id="notificationDropdown"
+                            class="notification-dropdown">
+
+                            <div class="notification-dropdown-header">
+                                <strong>🔔 Notifications</strong>
+                            </div>
+
+                            {% if notifications %}
+                                {% for notification in notifications[:3] %}
+                                    <div class="notification-preview">
+                                        <div class="notification-preview-icon">
+                                            🔔
+                                        </div>
+
+                                        <div class="notification-preview-content">
+                                            <p>{{ notification.message }}</p>
+                                            <small>
+                                                {{ notification.created_at.strftime(
+                                                    "%d %b %Y, %I:%M %p"
+                                                ) }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="notification-empty">
+                                    <p>No notifications yet.</p>
+                                </div>
+                            {% endif %}
+
+                            <div class="notification-dropdown-footer">
+                                <a href="{{ url_for('notifications') }}">
+                                    View All Notifications
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <a href="/logout">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Logout
+                    </a>
+                </li>
+
+                {% if session.get("is_admin") %}
+                    <li>
+                        <a href="/dashboard">
+                            <i class="fa-solid fa-chart-line"></i>
+                            Dashboard
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/admin/products">
+                            <i class="fa-solid fa-box"></i>
+                            Products
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% else %}
+
+                <li>
+                    <a href="/login">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        Login
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/register">
+                        <i class="fa-solid fa-user-plus"></i>
+                        Register
+                    </a>
+                </li>
+
+                {% endif %}
+
+            </ul>
+
+            <form
+                action="/search"
+                method="GET"
+                class="search-form">
+
+                <input
+                    type="text"
+                    name="q"
+                    placeholder="Search products...">
+
+                <button type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+
+            </form>
+
+        </div>
+
+    </nav>
+
+</header>
+
+<!-- =========================
+        Main Content
+========================== -->
+
+<main>
+
+{% block content %}
+
+{% endblock %}
+
+</main>
+
+<!-- =========================
+          Footer
+========================== -->
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div>
+
+            <h2>Vellor & Vine</h2>
+
+            <p>
+                Luxury Handmade Crochet Collections crafted with elegance,
+                passion, and timeless artistry.
+            </p>
+
+        </div>
+
+        <div>
+
+            <h3>Quick Links</h3>
+
+            <ul>
+
+                <li><a href="/">Home</a></li>
+
+                <li><a href="/shop">Shop</a></li>
+
+                <li><a href="/cart">Cart</a></li>
+                {% if session.get("is_admin") %}
+                <li><a href="/dashboard">Dashboard</a></li>
+                {% endif %}
+
+                {% if session.get("user_name") %}
+    <li><a href="/logout">Logout</a></li>
+{% else %}
+    <li><a href="/login">Login</a></li>
+{% endif %}
+
+            </ul>
+
+        </div>
+
+        <div>
+
+            <h3>Customer Care</h3>
+
+            <ul>
+
+                <li><a href="#">Shipping</a></li>
+
+                <li><a href="#">Returns</a></li>
+
+                <li><a href="#">Privacy Policy</a></li>
+
+                <li><a href="#">Contact</a></li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <hr>
+
+    <p class="copyright">
+        © 2026 Vellor & Vine. All Rights Reserved.
+    </p>
+
+</footer>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+AOS.init({
+    duration:1000,
+    once:true
+});
+</script>
+<script>
+
+function toggleNotifications() {
+
+    const dropdown =
+        document.getElementById("notificationDropdown");
+
+    dropdown.classList.toggle("show");
+
+}
+
+</script>
+<script>
+
+function toggleMobileMenu() {
+
+    const navContent =
+        document.getElementById("navContent");
+
+    navContent.classList.toggle("active");
+
+}
+
+</script>
+</body>
+</html>

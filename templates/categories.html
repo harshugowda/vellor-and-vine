@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="featured">
+
+<h2>Product Categories</h2>
+
+<form method="POST" class="product-form">
+
+    <input
+        type="text"
+        name="name"
+        placeholder="Category Name"
+        required>
+
+    <textarea
+        name="description"
+        placeholder="Category Description"></textarea>
+
+    <button type="submit">
+        Add Category
+    </button>
+
+</form>
+
+<hr><br>
+
+<div class="products">
+
+{% for category in categories %}
+
+<div class="card">
+
+<h3>{{ category.name }}</h3>
+
+<p>{{ category.description }}</p>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,342 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>📦 My Orders</h1>
+
+{% if orders %}
+
+    <div class="orders-grid">
+
+        {% for order in orders %}
+
+        <div class="order-card">
+
+            <!-- ========================= -->
+            <!-- ORDER HEADER -->
+            <!-- ========================= -->
+
+            <div class="order-header">
+
+                <div>
+
+                    <h2>
+                        Order #{{ order.id }}
+                    </h2>
+
+                    <p>
+                        {{ order.customer_name }}
+                    </p>
+
+                </div>
+
+                <div class="order-total">
+
+                    ₹{{ "%.2f"|format(order.total) }}
+
+                </div>
+
+            </div>
+
+
+            <!-- ========================= -->
+            <!-- ORDER INFORMATION -->
+            <!-- ========================= -->
+
+            <div class="order-info">
+
+
+                <!-- ========================= -->
+                <!-- ORDER STATUS -->
+                <!-- ========================= -->
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        📦 Order Status
+                    </span>
+
+
+                    {% if order.status == "Delivered" %}
+
+                        <span class="status delivered">
+                            ✅ Delivered
+                        </span>
+
+
+                    {% elif order.status == "Shipped" %}
+
+                        <span class="status shipped">
+                            🚚 Shipped
+                        </span>
+
+
+                    {% elif order.status == "Processing" %}
+
+                        <span class="status processing">
+                            ⚙️ Processing
+                        </span>
+
+
+                    {% elif order.status == "Confirmed" %}
+
+                        <span class="status confirmed">
+                            ✅ Confirmed
+                        </span>
+
+
+                    {% elif order.status == "Cancelled" %}
+
+                        <span class="status cancelled">
+                            ❌ Cancelled
+                        </span>
+
+
+                    {% else %}
+
+                        <span class="status pending">
+                            ⏳ Pending
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- ========================= -->
+                <!-- PAYMENT STATUS -->
+                <!-- ========================= -->
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        💳 Payment
+                    </span>
+
+
+                    {% if order.payment_status == "Paid"
+                          or order.payment_status == "Payment Confirmed" %}
+
+                        <span class="status delivered">
+
+                            ✅ Payment Confirmed
+
+                        </span>
+
+
+                    {% elif order.payment_status == "Payment Claimed" %}
+
+                        <span class="status pending">
+
+                            🟡 Payment Submitted
+
+                        </span>
+
+
+                    {% else %}
+
+                        <span class="status pending">
+
+                            ⏳ Payment Pending
+
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ========================= -->
+            <!-- ORDER PROGRESS -->
+            <!-- ========================= -->
+
+            <div class="progress-title">
+
+                📦 Order Progress
+
+            </div>
+
+
+            <div class="order-progress">
+
+
+                <!-- ========================= -->
+                <!-- CONFIRMED -->
+                <!-- ========================= -->
+
+                <div class="progress-step
+                    {% if order.status in ['Confirmed', 'Processing', 'Shipped', 'Delivered'] %}
+                        completed
+                    {% endif %}
+                ">
+
+                    <div class="progress-circle">
+                        ✓
+                    </div>
+
+                    <span>
+                        Confirmed
+                    </span>
+
+                </div>
+
+
+                <div class="progress-line
+                    {% if order.status in ['Processing', 'Shipped', 'Delivered'] %}
+                        completed-line
+                    {% endif %}
+                "></div>
+
+
+                <!-- ========================= -->
+                <!-- PROCESSING -->
+                <!-- ========================= -->
+
+                <div class="progress-step
+                    {% if order.status in ['Processing', 'Shipped', 'Delivered'] %}
+                        completed
+                    {% endif %}
+                ">
+
+                    <div class="progress-circle">
+                        ✓
+                    </div>
+
+                    <span>
+                        Processing
+                    </span>
+
+                </div>
+
+
+                <div class="progress-line
+                    {% if order.status in ['Shipped', 'Delivered'] %}
+                        completed-line
+                    {% endif %}
+                "></div>
+
+
+                <!-- ========================= -->
+                <!-- SHIPPED -->
+                <!-- ========================= -->
+
+                <div class="progress-step
+                    {% if order.status in ['Shipped', 'Delivered'] %}
+                        completed
+                    {% endif %}
+                ">
+
+                    <div class="progress-circle">
+                        ✓
+                    </div>
+
+                    <span>
+                        Shipped
+                    </span>
+
+                </div>
+
+
+                <div class="progress-line
+                    {% if order.status == 'Delivered' %}
+                        completed-line
+                    {% endif %}
+                "></div>
+
+
+                <!-- ========================= -->
+                <!-- DELIVERED -->
+                <!-- ========================= -->
+
+                <div class="progress-step
+                    {% if order.status == 'Delivered' %}
+                        completed
+                    {% endif %}
+                ">
+
+                    <div class="progress-circle">
+                        ✓
+                    </div>
+
+                    <span>
+                        Delivered
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ========================= -->
+            <!-- ORDER ACTIONS -->
+            <!-- ========================= -->
+
+            <div class="order-actions">
+
+
+                <!-- OPEN CHAT -->
+
+                <a
+                    href="{{ url_for('order_chat', order_id=order.id) }}"
+                    class="chat-order-btn">
+
+                    💬 Open Chat
+
+                </a>
+
+
+                <!-- DOWNLOAD INVOICE -->
+
+                <a
+                    href="{{ url_for('invoice', order_id=order.id) }}"
+                    class="invoice-btn">
+
+                    📄 Download Invoice
+
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+{% else %}
+
+
+    <!-- ========================= -->
+    <!-- NO ORDERS -->
+    <!-- ========================= -->
+
+    <div class="no-orders">
+
+        <h2>
+            📦 No Orders Yet
+        </h2>
+
+        <p>
+            You haven't placed any orders yet.
+        </p>
+
+        <a
+            href="{{ url_for('shop') }}"
+            class="shop-btn">
+
+            🛍️ Continue Shopping
+
+        </a>
+
+    </div>
+
+
+{% endif %}
+
+{% endblock %}

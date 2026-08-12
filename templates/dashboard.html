@@ -1,0 +1,690 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+/* ========================================
+   ADMIN DASHBOARD
+======================================== */
+
+.dashboard-page {
+    width: 92%;
+    max-width: 1400px;
+    margin: 50px auto 80px;
+}
+
+
+/* Header */
+
+.dashboard-header {
+    margin-bottom: 35px;
+}
+
+.dashboard-header h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 38px;
+    font-weight: 500;
+    color: #174d42;
+}
+
+.dashboard-header p {
+    margin-top: 8px;
+    color: #777;
+}
+
+
+/* ========================================
+   MAIN STATISTICS
+======================================== */
+
+.dashboard-stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 22px;
+
+    margin-bottom: 30px;
+}
+
+.dashboard-stat {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 18px;
+
+    border: 1px solid #eee;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.06);
+
+    text-align: center;
+
+    transition: 0.25s ease;
+}
+
+.dashboard-stat:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.10);
+}
+
+.dashboard-stat-icon {
+    font-size: 30px;
+
+    margin-bottom: 10px;
+}
+
+.dashboard-stat h3 {
+    margin: 5px 0;
+
+    font-size: 15px;
+
+    font-weight: 500;
+
+    color: #777;
+}
+
+.dashboard-stat p {
+    margin: 8px 0 0;
+
+    font-family: 'Cinzel', serif;
+
+    font-size: 30px;
+
+    font-weight: 600;
+
+    color: #174d42;
+}
+
+
+/* Revenue */
+
+.dashboard-stat.revenue p {
+    color: #d6aa55;
+}
+
+
+/* ========================================
+   ORDER STATUS
+======================================== */
+
+.status-section {
+    margin: 35px 0;
+}
+
+.status-section h2 {
+    margin-bottom: 20px;
+
+    font-family: 'Cinzel', serif;
+
+    font-size: 27px;
+
+    font-weight: 500;
+
+    color: #174d42;
+}
+
+.status-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(6, minmax(0, 1fr));
+
+    gap: 15px;
+}
+
+.status-card {
+    background: white;
+
+    padding: 18px 12px;
+
+    text-align: center;
+
+    border-radius: 15px;
+
+    border: 1px solid #eee;
+}
+
+.status-card h4 {
+    margin: 0 0 8px;
+
+    font-size: 13px;
+
+    font-weight: 500;
+
+    color: #777;
+}
+
+.status-card p {
+    margin: 0;
+
+    font-size: 24px;
+
+    font-weight: 700;
+
+    color: #174d42;
+}
+
+
+/* ========================================
+   CONTENT SECTIONS
+======================================== */
+
+.dashboard-section {
+    background: white;
+
+    padding: 28px;
+
+    margin-top: 25px;
+
+    border-radius: 20px;
+
+    border: 1px solid #eee;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+.dashboard-section h2 {
+    margin: 0 0 22px;
+
+    font-family: 'Cinzel', serif;
+
+    font-size: 24px;
+
+    font-weight: 500;
+
+    color: #174d42;
+}
+
+
+/* ========================================
+   TABLE
+======================================== */
+
+.dashboard-table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+.dashboard-table th {
+    padding: 14px;
+
+    text-align: left;
+
+    background: #faf8f5;
+
+    color: #174d42;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+.dashboard-table td {
+    padding: 14px;
+
+    border-bottom: 1px solid #eee;
+
+    color: #555;
+
+    font-size: 14px;
+}
+
+.dashboard-table tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* Status */
+
+.order-status {
+    display: inline-block;
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    background: #f5f5f5;
+
+    color: #555;
+}
+
+
+/* ========================================
+   LOW STOCK
+======================================== */
+
+.low-stock {
+    color: #c62828 !important;
+
+    font-weight: 600;
+}
+
+
+/* ========================================
+   EMPTY MESSAGE
+======================================== */
+
+.dashboard-empty {
+    padding: 25px;
+
+    text-align: center;
+
+    color: #777;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 1100px) {
+
+    .dashboard-stats {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .status-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .dashboard-page {
+        width: 94%;
+    }
+
+    .dashboard-header h1 {
+        font-size: 30px;
+    }
+
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .status-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .dashboard-section {
+        padding: 18px;
+
+        overflow-x: auto;
+    }
+
+    .dashboard-table {
+        min-width: 600px;
+    }
+
+}
+
+</style>
+
+
+<div class="dashboard-page">
+
+
+    <!-- ========================================
+         HEADER
+    ======================================== -->
+
+    <div class="dashboard-header">
+
+        <h1>
+            Admin Dashboard
+        </h1>
+
+        <p>
+            Overview of your Vellor & Vine store.
+        </p>
+
+    </div>
+
+
+    <!-- ========================================
+         MAIN STATISTICS
+    ======================================== -->
+
+    <div class="dashboard-stats">
+
+
+        <div class="dashboard-stat">
+
+            <div class="dashboard-stat-icon">
+                📦
+            </div>
+
+            <h3>
+                Products
+            </h3>
+
+            <p>
+                {{ total_products }}
+            </p>
+
+        </div>
+
+
+        <div class="dashboard-stat">
+
+            <div class="dashboard-stat-icon">
+                🛒
+            </div>
+
+            <h3>
+                Orders
+            </h3>
+
+            <p>
+                {{ total_orders }}
+            </p>
+
+        </div>
+
+
+        <div class="dashboard-stat">
+
+            <div class="dashboard-stat-icon">
+                👤
+            </div>
+
+            <h3>
+                Customers
+            </h3>
+
+            <p>
+                {{ total_users }}
+            </p>
+
+        </div>
+
+
+        <div class="dashboard-stat revenue">
+
+            <div class="dashboard-stat-icon">
+                💰
+            </div>
+
+            <h3>
+                Revenue
+            </h3>
+
+            <p>
+                ₹{{ "%.2f"|format(revenue) }}
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ========================================
+         ORDER STATUS
+    ======================================== -->
+
+    <div class="status-section">
+
+        <h2>
+            Order Status
+        </h2>
+
+
+        <div class="status-grid">
+
+
+            <div class="status-card">
+
+                <h4>
+                    Pending
+                </h4>
+
+                <p>
+                    {{ pending_orders }}
+                </p>
+
+            </div>
+
+
+            <div class="status-card">
+
+                <h4>
+                    Confirmed
+                </h4>
+
+                <p>
+                    {{ confirmed_orders }}
+                </p>
+
+            </div>
+
+
+            <div class="status-card">
+
+                <h4>
+                    Processing
+                </h4>
+
+                <p>
+                    {{ processing_orders }}
+                </p>
+
+            </div>
+
+
+            <div class="status-card">
+
+                <h4>
+                    Shipped
+                </h4>
+
+                <p>
+                    {{ shipped_orders }}
+                </p>
+
+            </div>
+
+
+            <div class="status-card">
+
+                <h4>
+                    Delivered
+                </h4>
+
+                <p>
+                    {{ delivered_orders }}
+                </p>
+
+            </div>
+
+
+            <div class="status-card">
+
+                <h4>
+                    Cancelled
+                </h4>
+
+                <p>
+                    {{ cancelled_orders }}
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================================
+         RECENT ORDERS
+    ======================================== -->
+
+    <div class="dashboard-section">
+
+        <h2>
+            🛒 Recent Orders
+        </h2>
+
+
+        {% if recent_orders %}
+
+            <table class="dashboard-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Order ID
+                        </th>
+
+                        <th>
+                            Customer
+                        </th>
+
+                        <th>
+                            Total
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for order in recent_orders %}
+
+                        <tr>
+
+                            <td>
+                                #{{ order.id }}
+                            </td>
+
+                            <td>
+                                {{ order.customer_name }}
+                            </td>
+
+                            <td>
+                                ₹{{ "%.2f"|format(order.total) }}
+                            </td>
+
+                            <td>
+
+                                <span class="order-status">
+                                    {{ order.status }}
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        {% else %}
+
+            <div class="dashboard-empty">
+                No orders yet.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ========================================
+         LOW STOCK
+    ======================================== -->
+
+    <div class="dashboard-section">
+
+        <h2>
+            ⚠️ Low Stock Products
+        </h2>
+
+
+        {% if low_stock %}
+
+            <table class="dashboard-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Product
+                        </th>
+
+                        <th>
+                            Stock
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for product in low_stock %}
+
+                        <tr>
+
+                            <td>
+                                {{ product.name }}
+                            </td>
+
+                            <td class="low-stock">
+                                {{ product.stock }}
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        {% else %}
+
+            <div class="dashboard-empty">
+
+                ✓ All products have sufficient stock.
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+</div>
+
+{% endblock %}

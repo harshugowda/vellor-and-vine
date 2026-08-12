@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>🔔 Notifications</h1>
+
+{% if notifications %}
+
+    <div class="notifications-list">
+
+        {% for notification in notifications %}
+
+            <div class="notification-card
+                {% if not notification.is_read %}
+                    unread
+                {% endif %}
+            ">
+
+                <div class="notification-icon">
+                    🔔
+                </div>
+
+
+                <div class="notification-content">
+
+                    <p>
+                        {{ notification.message }}
+                    </p>
+
+
+                    <small>
+                        {{ notification.created_at.strftime(
+                            "%d %b %Y, %I:%M %p"
+                        ) }}
+                    </small>
+
+
+                    {% if not notification.is_read %}
+
+                        <div>
+
+                            <a
+                                href="{{ url_for(
+                                    'mark_notification_read',
+                                    notification_id=notification.id
+                                ) }}"
+                                class="mark-read-btn">
+
+                                ✓ Mark as read
+
+                            </a>
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="read-label">
+                            ✓ Read
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% else %}
+
+    <div class="no-notifications">
+
+        <h2>🔔 No Notifications</h2>
+
+        <p>
+            You don't have any notifications yet.
+        </p>
+
+    </div>
+
+{% endif %}
+
+{% endblock %}

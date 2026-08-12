@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="featured">
+
+    <h2>🎉 Order Placed Successfully!</h2>
+
+    <p class="section-subtitle">
+        Thank you for shopping with Vellor & Vine.
+    </p>
+
+    <a href="/shop" class="btn">
+        Continue Shopping
+    </a>
+
+</section>
+<a
+    href="{{ url_for('invoice', order_id=order.id) }}"
+    class="btn">
+    Download Invoice
+</a>
+
+{% endblock %}

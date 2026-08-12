@@ -1,0 +1,343 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+    .orders-page {
+        padding: 40px;
+    }
+
+    .orders-page h2 {
+        color: #23443c;
+        margin-bottom: 25px;
+    }
+
+    .orders-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .orders-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .orders-table th {
+        background: #23443c;
+        color: white;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .orders-table td {
+        padding: 14px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+
+    .orders-table tr:hover {
+        background: #fafafa;
+    }
+
+    .invoice-btn,
+    .chat-btn {
+        display: inline-block;
+        padding: 9px 14px;
+        border-radius: 7px;
+        text-decoration: none;
+        color: white;
+        font-weight: 600;
+        margin: 3px;
+    }
+
+    .invoice-btn {
+        background: #23443c;
+    }
+
+    .chat-btn {
+        background: #cda85c;
+    }
+
+    .status-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .status-form select {
+        padding: 9px 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        min-width: 170px;
+        font-size: 14px;
+    }
+
+    .update-btn {
+        background: #23443c;
+        color: white;
+        border: none;
+        padding: 9px 18px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    .payment-status {
+        font-weight: 600;
+    }
+
+    .payment-confirmed {
+        color: #16803c;
+    }
+
+    .payment-pending {
+        color: #b07a00;
+    }
+
+</style>
+
+
+<div class="orders-page">
+
+    <h2>📦 Customer Orders</h2>
+
+
+    <div class="orders-table-wrapper">
+
+        <table class="orders-table">
+
+            <tr>
+
+                <th>ID</th>
+                <th>Customer</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Total</th>
+                <th>Payment</th>
+                <th>Invoice</th>
+                <th>Chat</th>
+                <th>Order Status</th>
+
+            </tr>
+
+
+            {% for order in orders %}
+
+            <tr>
+
+                <!-- Order ID -->
+
+                <td>
+                    #{{ order.id }}
+                </td>
+
+
+                <!-- Customer -->
+
+                <td>
+                    {{ order.customer_name }}
+                </td>
+
+
+                <!-- Email -->
+
+                <td>
+                    {{ order.email }}
+                </td>
+
+
+                <!-- Phone -->
+
+                <td>
+                    {{ order.phone }}
+                </td>
+
+
+                <!-- Total -->
+
+                <td>
+                    ₹{{ "%.2f"|format(order.total) }}
+                </td>
+
+
+                <!-- Payment Status -->
+
+                <td>
+
+                    {% if order.payment_status == "Paid" %}
+
+                        <span class="payment-status payment-confirmed">
+                            ✅ Confirmed
+                        </span>
+
+                    {% elif order.payment_status == "Payment Claimed" %}
+
+                        <span class="payment-status payment-pending">
+                            🟡 Claimed
+                        </span>
+
+                    {% else %}
+
+                        <span class="payment-status payment-pending">
+                            ⏳ Pending
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+
+                <!-- Invoice -->
+
+                <td>
+
+                    <a
+                        href="{{ url_for('invoice', order_id=order.id) }}"
+                        class="invoice-btn">
+
+                        📄 Invoice
+
+                    </a>
+
+                </td>
+
+
+                <!-- Chat -->
+
+                <td>
+
+                    <a
+                        href="{{ url_for('admin_chat', order_id=order.id) }}"
+                        class="chat-btn">
+
+                        💬 Chat
+
+                    </a>
+
+                </td>
+
+
+                <!-- Order Status -->
+
+                <td>
+
+                    <form
+                        action="{{ url_for('update_order', id=order.id) }}"
+                        method="POST"
+                        class="status-form">
+
+
+                        <select name="status">
+
+                            <option
+                                value="Pending Confirmation"
+                                {% if order.status == "Pending Confirmation" %}
+                                    selected
+                                {% endif %}>
+
+                                Pending Confirmation
+
+                            </option>
+
+
+                            <option
+                                value="Confirmed"
+                                {% if order.status == "Confirmed" %}
+                                    selected
+                                {% endif %}>
+
+                                Confirmed
+
+                            </option>
+
+
+                            <option
+                                value="Processing"
+                                {% if order.status == "Processing" %}
+                                    selected
+                                {% endif %}>
+
+                                Processing
+
+                            </option>
+
+
+                            <option
+                                value="Shipped"
+                                {% if order.status == "Shipped" %}
+                                    selected
+                                {% endif %}>
+
+                                Shipped
+
+                            </option>
+
+
+                            <option
+                                value="Delivered"
+                                {% if order.status == "Delivered" %}
+                                    selected
+                                {% endif %}>
+
+                                Delivered
+
+                            </option>
+
+
+                            <option
+                                value="Cancelled"
+                                {% if order.status == "Cancelled" %}
+                                    selected
+                                {% endif %}>
+
+                                Cancelled
+
+                            </option>
+
+
+                        </select>
+
+
+                        <button
+                            type="submit"
+                            class="update-btn">
+
+                            Update
+
+                        </button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+
+            {% if not orders %}
+
+            <tr>
+
+                <td colspan="9">
+                    No customer orders found.
+                </td>
+
+            </tr>
+
+            {% endif %}
+
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

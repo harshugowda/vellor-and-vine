@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="hero">
+
+    <div class="hero-left" data-aos="fade-right">
+
+        <span class="hero-tag">HANDCRAFTED LUXURY CROCHET</span>
+
+        <h1>VELLOR & VINE</h1>
+
+        <h3>Beautiful Gifts, Handmade with Love</h3>
+
+        <p>
+            Discover crochet flower bouquets, plush toys,
+            handbags and adorable keychains crafted with
+            passion and care.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="/shop" class="btn">Shop Collection</a>
+            <a href="/shop" class="btn-outline">Explore</a>
+        </div>
+
+    </div>
+
+    
+
+</section>>
+
+<!-- COLLECTION -->
+
+<section id="collection" class="featured">
+
+    <!-- =========================
+     Featured Categories
+========================= -->
+
+<section class="categories">
+
+    <h2 data-aos="fade-up">Shop By Category</h2>
+
+    <p class="section-subtitle" data-aos="fade-up">
+        Explore our handcrafted crochet collections made with love.
+    </p>
+
+    <div class="category-grid">
+
+        <div class="category-card" data-aos="zoom-in">
+            <div class="category-icon">🌹</div>
+            <h3>Flower Bouquets</h3>
+            <p>Elegant everlasting crochet flowers.</p>
+            <a href="/shop" class="category-btn">Shop Now</a>
+        </div>
+
+        <div class="category-card" data-aos="zoom-in" data-aos-delay="100">
+            <div class="category-icon">🧸</div>
+            <h3>Plush Toys</h3>
+            <p>Adorable handmade companions.</p>
+            <a href="/shop" class="category-btn">Shop Now</a>
+        </div>
+
+        <div class="category-card" data-aos="zoom-in" data-aos-delay="200">
+            <div class="category-icon">👜</div>
+            <h3>Crochet Bags</h3>
+            <p>Stylish bags crafted with premium yarn.</p>
+            <a href="/shop" class="category-btn">Shop Now</a>
+        </div>
+
+        <div class="category-card" data-aos="zoom-in" data-aos-delay="300">
+            <div class="category-icon">🔑</div>
+            <h3>Keychains</h3>
+            <p>Small handmade gifts with big charm.</p>
+            <a href="/shop" class="category-btn">Shop Now</a>
+        </div>
+
+    </div>
+
+</section>
+
+        <div class="card">
+            <div class="placeholder">👜</div>
+            <h3>Bags</h3>
+            <p>Elegant handmade bags.</p>
+        </div>
+
+        <div class="card">
+            <div class="placeholder">🧸</div>
+            <h3>Plush Toys</h3>
+            <p>Soft handmade companions.</p>
+        </div>
+
+        <div class="card">
+            <div class="placeholder">🎀</div>
+            <h3>Gift Sets</h3>
+            <p>Perfect for every celebration.</p>
+        </div>
+
+    </div>
+
+</section>
+<!-- =========================
+     Best Sellers
+========================= -->
+
+<section class="best-sellers">
+
+    <h2 data-aos="fade-up">Best Sellers</h2>
+
+    <p class="section-subtitle" data-aos="fade-up">
+        Our most loved handmade crochet creations.
+    </p>
+
+    <div class="products">
+
+        {% for product in products[:4] %}
+
+        <div class="card" data-aos="zoom-in">
+
+            <div class="badge">
+                Handmade
+            </div>
+
+            {% if product.image %}
+                <img
+                    src="{{ url_for('static', filename='uploads/' + product.image) }}"
+                    class="product-image"
+                    alt="{{ product.name }}">
+            {% endif %}
+
+            <div class="rating">
+                ★★★★★
+            </div>
+
+            <h3>{{ product.name }}</h3>
+
+            <p class="price">
+                ₹{{ product.price }}
+            </p>
+
+            <a href="/product/{{ product.id }}" class="cart-btn">
+                View Product
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+<!-- ABOUT -->
+
+<section class="featured">
+
+    <h2>About Us</h2>
+
+    <p class="section-subtitle">
+
+        At Vellor & Vine, every product is handmade with
+        patience, creativity and premium quality yarn.
+        Every stitch tells a story and every gift creates
+        lasting memories.
+
+    </p>
+
+</section>
+
+<!-- WHY US -->
+
+<!-- =========================
+     Why Choose Us
+========================= -->
+
+<section class="why-us">
+
+    <h2 data-aos="fade-up">Why Choose Vellor & Vine?</h2>
+
+    <p class="section-subtitle" data-aos="fade-up">
+        Every creation is handcrafted with passion, premium materials, and attention to detail.
+    </p>
+
+    <div class="features">
+
+        <div class="feature" data-aos="fade-up">
+            <div class="feature-icon">🧶</div>
+            <h3>100% Handmade</h3>
+            <p>Every product is carefully crocheted by hand with love and precision.</p>
+        </div>
+
+        <div class="feature" data-aos="fade-up" data-aos-delay="100">
+            <div class="feature-icon">🚚</div>
+            <h3>Fast Delivery</h3>
+            <p>Secure packaging and delivery across India.</p>
+        </div>
+
+        <div class="feature" data-aos="fade-up" data-aos-delay="200">
+            <div class="feature-icon">🌿</div>
+            <h3>Eco Friendly</h3>
+            <p>Made with quality yarn and reusable materials wherever possible.</p>
+        </div>
+
+        <div class="feature" data-aos="fade-up" data-aos-delay="300">
+            <div class="feature-icon">🎁</div>
+            <h3>Perfect Gifts</h3>
+            <p>Beautiful handmade gifts for birthdays, anniversaries and special occasions.</p>
+        </div>
+
+    </div>
+
+</section>
+<!-- =========================
+     Customer Reviews
+========================= -->
+
+<section class="testimonials">
+
+    <h2 data-aos="fade-up">What Our Customers Say</h2>
+
+    <p class="section-subtitle" data-aos="fade-up">
+        Handmade gifts that create unforgettable memories.
+    </p>
+
+    <div class="testimonial-grid">
+
+        <div class="testimonial-card" data-aos="fade-up">
+
+            <div class="stars">★★★★★</div>
+
+            <p>
+                "The crochet flower bouquet looked even more beautiful in person.
+                The craftsmanship is amazing!"
+            </p>
+
+            <h4>— Priya S.</h4>
+
+        </div>
+
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="stars">★★★★★</div>
+
+            <p>
+                "The teddy bear was adorable and beautifully handmade.
+                My daughter absolutely loved it."
+            </p>
+
+            <h4>— Rahul K.</h4>
+
+        </div>
+
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+
+            <div class="stars">★★★★★</div>
+
+            <p>
+                "Premium quality, fast delivery and excellent packaging.
+                Highly recommended!"
+            </p>
+
+            <h4>— Sneha R.</h4>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- =========================
+     Gallery
+========================= -->
+
+<section class="gallery">
+
+    <h2 data-aos="fade-up">Our Handmade Collection</h2>
+
+    <p class="section-subtitle" data-aos="fade-up">
+        Every creation is handcrafted with love and attention to detail.
+    </p>
+
+    <div class="gallery-grid">
+
+        <img src="{{ url_for('static', filename='images/hero.png') }}" data-aos="zoom-in">
+
+        <img src="{{ url_for('static', filename='images/hero.png') }}" data-aos="zoom-in" data-aos-delay="100">
+
+        <img src="{{ url_for('static', filename='images/hero.png') }}" data-aos="zoom-in" data-aos-delay="200">
+
+        <img src="{{ url_for('static', filename='images/hero.png') }}" data-aos="zoom-in" data-aos-delay="300">
+
+    </div>
+
+</section>
+<section class="newsletter">
+
+    <h2>Stay Connected</h2>
+
+    <p>
+        Get updates about new handmade collections and exclusive offers.
+    </p>
+
+    <form>
+
+        <input
+            type="email"
+            placeholder="Enter your email">
+
+        <button>
+            Subscribe
+        </button>
+
+    </form>
+
+</section>
+
+{% endblock %}

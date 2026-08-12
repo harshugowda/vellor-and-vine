@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="chat-page">
+
+    <div class="chat-container">
+
+        <div class="chat-header">
+            <h2>💬 Chat with Vellor & Vine</h2>
+            <p>We're here to help you with your order.</p>
+        </div>
+
+        <div class="chat-messages">
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="message
+                        {% if message.sender == 'customer' %}
+                            customer-message
+                        {% else %}
+                            admin-message
+                        {% endif %}
+                    ">
+
+   {% if message.message == "[PAYMENT_QR]" %}
+
+    <div class="payment-qr-message">
+
+        <h3>💳 Payment Requested</h3>
+
+        <p>
+            Please scan the QR code below to make your payment.
+        </p>
+
+        <img
+            src="{{ url_for('static', filename='images/upi_qr.png') }}"
+            alt="UPI Payment QR"
+            class="payment-qr-image">
+
+        <p class="payment-amount">
+            Amount: <strong>₹{{ order.total }}</strong>
+        </p>
+      
+
+{% if order.payment_status == "Payment Claimed" %}
+
+    <div class="payment-claimed">
+
+        🟡 <strong>Payment Submitted</strong>
+
+        <p>
+            We've received your payment confirmation.
+        </p>
+
+        <small>
+            Vellor & Vine will verify your payment shortly.
+        </small>
+
+    </div>
+
+{% elif order.payment_status == "Paid" %}
+
+    <div class="payment-confirmed">
+
+        ✅ <strong>Payment Confirmed</strong>
+
+        <p>
+            Your payment has been verified.
+        </p>
+
+        <small>
+            Thank you for your purchase!
+        </small>
+
+    </div>
+
+{% else %}
+
+    <form
+        action="{{ url_for('mark_payment_claimed', order_id=order.id) }}"
+        method="POST">
+
+        <button
+            type="submit"
+            class="paid-btn">
+
+            ✅ I Have Paid
+
+        </button>
+
+    </form>
+
+{% endif %}
+
+    </div>
+
+{% else %}
+
+    <p>{{ message.message }}</p>
+
+{% endif %}
+                        <small>
+                            {{ message.created_at.strftime("%d %b %Y, %I:%M %p") }}
+                        </small>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty-chat">
+                    <p>👋 Hello!</p>
+                    <p>Send us a message and we'll be happy to help.</p>
+                </div>
+
+            {% endif %}
+
+        </div>
+
+        <form
+    action="{{ url_for('send_order_chat_message', order_id=order.id) }}"
+    method="POST"
+    class="chat-form">
+
+            <input
+                type="text"
+                name="message"
+                placeholder="Type your message..."
+                required>
+
+            <button type="submit">
+                <i class="fa-solid fa-paper-plane"></i>
+                Send
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

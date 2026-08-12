@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="chat-container">
+
+    <!-- Chat Header -->
+    <div class="chat-header">
+
+        <h2>💬 Order #{{ order.id }} Chat</h2>
+
+        <p>
+            Customer: {{ order.customer_name }}
+        </p>
+
+    </div>
+
+
+    <!-- Payment Actions -->
+    <div class="payment-qr-action">
+
+        <!-- Send QR Button -->
+        <a
+            href="{{ url_for('admin_send_qr', order_id=order.id) }}"
+            class="send-qr-btn">
+
+            💳 Send Payment QR
+
+        </a>
+
+
+        <!-- Payment Claimed -->
+        {% if order.payment_status == "Payment Claimed" %}
+
+            <div class="admin-payment-alert">
+
+                <h3>⚠️ Payment Submitted</h3>
+
+                <p>
+                    Customer has marked the payment as completed.
+                </p>
+
+                <p>
+                    Amount:
+                    <strong>₹{{ order.total }}</strong>
+                </p>
+
+
+                <form
+                    action="{{ url_for(
+                        'confirm_payment',
+                        order_id=order.id
+                    ) }}"
+                    method="POST">
+
+                    <button
+                        type="submit"
+                        class="confirm-payment-btn">
+
+                        ✅ Confirm Payment
+
+                    </button>
+
+                </form>
+
+            </div>
+
+
+        <!-- Payment Already Confirmed -->
+        {% elif order.payment_status == "Paid" %}
+
+            <div class="payment-confirmed">
+
+                <h3>✅ Payment Confirmed</h3>
+
+                <p>
+                    This payment has been verified.
+                </p>
+
+                <p>
+                    Amount:
+                    <strong>₹{{ order.total }}</strong>
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- Chat Messages -->
+    <div class="chat-messages">
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="message
+                    {% if message.sender == 'admin' %}
+                        admin-message
+                    {% else %}
+                        customer-message
+                    {% endif %}
+                ">
+
+                    {% if message.message == "[PAYMENT_QR]" %}
+
+                        <div class="admin-qr-message">
+
+                            <p>
+                                💳 Payment QR sent to customer
+                            </p>
+
+                        </div>
+
+                    {% else %}
+
+                        <p>
+                            {{ message.message }}
+                        </p>
+
+                    {% endif %}
+
+
+                    <small>
+                        {{ message.created_at.strftime(
+                            "%d %b %Y, %I:%M %p"
+                        ) }}
+                    </small>
+
+                </div>
+
+            {% endfor %}
+
+
+        {% else %}
+
+            <div class="empty-chat">
+
+                <p>No messages yet.</p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- Admin Reply Form -->
+    <form
+        action="{{ url_for(
+            'admin_send_chat',
+            order_id=order.id
+        ) }}"
+        method="POST"
+        class="chat-form">
+
+        <input
+            type="text"
+            name="message"
+            placeholder="Reply to customer..."
+            required>
+
+        <button type="submit">
+
+            <i class="fa-solid fa-paper-plane"></i>
+
+            Reply
+
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}
