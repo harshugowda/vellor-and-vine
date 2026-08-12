@@ -900,6 +900,9 @@ def orders():
 @app.route("/update-order/<int:id>", methods=["POST"])
 def update_order(id):
 
+    if not session.get("is_admin"):
+        return redirect(url_for("home"))
+
     order = Order.query.get_or_404(id)
 
     new_status = request.form["status"]
