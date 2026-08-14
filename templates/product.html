@@ -498,10 +498,7 @@
             {% if product.image %}
 
                 <img
-                    src="{{ url_for(
-                        'static',
-                        filename='uploads/' + product.image
-                    ) }}"
+                    src="{{ image_url(product.image) }}"
                     class="product-detail-image"
                     alt="{{ product.name }}">
 
@@ -716,10 +713,7 @@
                         {% if item.image %}
 
                             <img
-                                src="{{ url_for(
-                                    'static',
-                                    filename='uploads/' + item.image
-                                ) }}"
+                                src="{{ image_url(item.image) }}"
                                 class="related-image"
                                 alt="{{ item.name }}">
 

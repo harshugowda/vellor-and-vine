@@ -17,13 +17,34 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, render_template, request, redirect, url_for, session,flash
 from datetime import datetime
 from models import Product, db, User, Order, Category, OrderItem, Notification, Wishlist
+import cloudinary
+import cloudinary.uploader
 app = Flask(__name__)
 app.config.from_object("config.Config")
-
+cloudinary.config(
+    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.environ.get("CLOUDINARY_API_KEY"),
+    api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
+    secure=True
+)
 
 db.init_app(app)
 
+@app.template_global()
+def image_url(image):
+    if not image:
+        return url_for(
+            "static",
+            filename="uploads/default.jpg"
+        )
 
+    if image.startswith("http://") or image.startswith("https://"):
+        return image
+
+    return url_for(
+        "static",
+        filename="uploads/" + image
+    )
 # -----------------------------
 # Product Model
 # -----------------------------
@@ -97,8 +118,12 @@ def admin():
         filename = "default.jpg"
 
         if image and image.filename != "":
-            filename = secure_filename(image.filename)
-            image.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+            upload_result = cloudinary.uploader.upload(
+                image,
+                folder="vellor-and-vine/products"
+            )
+
+            filename = upload_result["secure_url"]
 
         product = Product(
          name=name,

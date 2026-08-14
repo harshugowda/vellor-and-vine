@@ -93,10 +93,7 @@
                         {% if product.image %}
 
                             <img
-                                src="{{ url_for(
-                                    'static',
-                                    filename='uploads/' + product.image
-                                ) }}"
+                                src="{{ image_url(product.image) }}"
                                 class="product-image"
                                 alt="{{ product.name }}">
 
