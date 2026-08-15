@@ -21,12 +21,7 @@ import cloudinary
 import cloudinary.uploader
 app = Flask(__name__)
 app.config.from_object("config.Config")
-cloudinary.config(
-    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
-    api_key=os.environ.get("CLOUDINARY_API_KEY"),
-    api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
-    secure=True
-)
+cloudinary.config(secure=True)
 
 db.init_app(app)
 
