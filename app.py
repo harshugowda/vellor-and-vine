@@ -144,6 +144,9 @@ def admin():
 @app.route("/delete/<int:id>")
 def delete_product(id):
 
+    if not session.get("is_admin"):
+        return redirect(url_for("home"))
+
     product = Product.query.get_or_404(id)
 
     db.session.delete(product)
@@ -154,6 +157,9 @@ def delete_product(id):
 
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 def edit_product(id):
+
+    if not session.get("is_admin"):
+        return redirect(url_for("home"))
 
     product = Product.query.get_or_404(id)
 
