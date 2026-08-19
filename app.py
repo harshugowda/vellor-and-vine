@@ -96,7 +96,7 @@ def shop():
 # -----------------------------
 @app.route("/admin", methods=["GET", "POST"])
 def admin():
-    
+
     if not session.get("is_admin"):
         return redirect(url_for("home"))
 
@@ -480,8 +480,18 @@ def checkout():
 
         if product:
 
-            subtotal = product.price * quantity
+            quantity = int(quantity)
 
+            # Check stock before showing/processing checkout
+            if quantity > product.stock:
+                flash(
+                    f"Only {product.stock} item(s) of "
+                    f"{product.name} are available.",
+                    "error"
+                )
+                return redirect(url_for("cart"))
+
+            subtotal = product.price * quantity
             total += subtotal
 
             products.append({
@@ -490,7 +500,27 @@ def checkout():
                 "subtotal": subtotal
             })
 
+    if not products:
+        flash("Your cart is empty.", "error")
+        return redirect(url_for("cart"))
+
     if request.method == "POST":
+
+        # Check stock again at the moment the order is submitted.
+        # This prevents overselling if stock changed while
+        # the customer was on the checkout page.
+        for item in products:
+
+            product = item["product"]
+            quantity = item["quantity"]
+
+            if quantity > product.stock:
+                flash(
+                    f"Sorry, only {product.stock} item(s) of "
+                    f"{product.name} are currently available.",
+                    "error"
+                )
+                return redirect(url_for("cart"))
 
         order = Order(
             customer_name=request.form["fullname"],
@@ -515,7 +545,6 @@ def checkout():
             )
 
             db.session.add(order_item)
-
 
         # Reduce stock
         for item in products:
@@ -938,6 +967,26 @@ def update_order(id):
     order = Order.query.get_or_404(id)
 
     new_status = request.form["status"]
+    old_status = order.status
+
+    # A cancelled order has already had its stock restored.
+    # Don't allow it to be changed again and restored twice.
+    if old_status == "Cancelled":
+        flash(
+            f"Order #{order.id} is already cancelled.",
+            "error"
+        )
+        return redirect(url_for("orders"))
+
+    # Restore stock when an active order is cancelled
+    if new_status == "Cancelled":
+
+        for item in order.items:
+
+            product = Product.query.get(item.product_id)
+
+            if product:
+                product.stock += item.quantity
 
     # Update order status
     order.status = new_status
@@ -1162,10 +1211,6 @@ def notifications():
     ).all()
 
     # Mark all notifications as read
-    for notification in notifications:
-        notification.is_read = True
-
-    db.session.commit()
 
     return render_template(
         "notifications.html",
